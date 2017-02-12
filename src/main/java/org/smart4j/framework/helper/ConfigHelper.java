@@ -8,6 +8,7 @@ import java.util.Properties;
 /**
  * Created by sally on 2017/2/11.
  * 属性文件助手类
+ * 获取属性文件中的属性值
  */
 public final class ConfigHelper {
     private static final Properties CONFIG_PROPS = PropsUtil.loadProps(ConfigConstant.CONFIG_FILE);
