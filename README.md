@@ -62,12 +62,20 @@ public final class HelperLoader {
     }
 }
 
+
  # v8.0 smart-framework 请求转发器完成 （此时mvc简单搭建完成）
+
                                 * 1、初始化helper类
+
                                 * 2、注册 jsp,servlet 静态方法
+
                                 * 3、根据  请求路径，请求方法  获取处理类
+
                                 * 4、从request,输入流  中获取 请求参数
+
                                 * 5、ReflectionUtil  处理获取结果
+
                                 * 6、根据结果   view,data  进行处理
+
 
 
