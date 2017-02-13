@@ -1,7 +1,8 @@
 # architecture-smart_framwork
 
-# v3.0 实现bean容器  …
+# v3.0 实现bean容器
    ClassHelper 获取指定的类集合(getServiceClassSet,getControllerClassSet)
+   dd
    ReflectionUtil 封装反射，提供实例化的类
    BeanHelper 返回Map<Class<?>, Object>
    
@@ -48,7 +49,7 @@ public final class HelperLoader {
     }
 }
 
- # v8.0 smart-framework 请求转发器完成 （此时mvc简单搭建完成）  …
+ # v8.0 smart-framework 请求转发器完成 （此时mvc简单搭建完成）
                                 * 1、初始化helper类
                                 * 2、注册 jsp,servlet 静态方法
                                 * 3、根据  请求路径，请求方法  获取处理类
