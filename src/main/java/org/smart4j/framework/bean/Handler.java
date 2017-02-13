@@ -5,6 +5,7 @@ import java.lang.reflect.Method;
 /**
  * 封装action信息
  * 处理器信息
+ * 处理 类，方法
  * 
  * @author shuang
  * @version 1.0.0
