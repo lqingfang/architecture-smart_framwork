@@ -2,13 +2,18 @@
 
 # v3.0 实现bean容器
    ClassHelper 获取指定的类集合(getServiceClassSet,getControllerClassSet)
-   dd
+
    ReflectionUtil 封装反射，提供实例化的类
+
    BeanHelper 返回Map<Class<?>, Object>
+
    
-# v4.0 smart-framework 实现依赖注入 
+# v4.0 smart-framework 实现依赖注入
+
    BeanHelper 获取包下所有的类  Map<Class<?>, Object>
+
    IocHelper 遍历Map<Class<?>, Object> beanMap
+
                   再遍历每一个 Class<?>, Object下的成员变量
                   如果变量有inject修饰，则利用ReflectionUtil修改当前变量的值
    注意：因为 BeanMap中的对象都是事先创建好放入 beanMap的，
