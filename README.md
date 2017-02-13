@@ -14,19 +14,27 @@
 
    IocHelper 遍历Map<Class<?>, Object> beanMap
 
-                  再遍历每一个 Class<?>, Object下的成员变量
-                  如果变量有inject修饰，则利用ReflectionUtil修改当前变量的值
+   再遍历每一个 Class<?>, Object下的成员变量
+
+   如果变量有inject修饰，则利用ReflectionUtil修改当前变量的值
+
    注意：因为 BeanMap中的对象都是事先创建好放入 beanMap的，
+
              所以 所有的对象都是单例的
              
-# v5.0 smart-framework 加载 Controller 
+# v5.0 smart-framework 加载 Controller
+
    request 封装请求信息，路径，方法名
+
    handler 封装处理信息，类，方法
+
    ControllerHelper 中 Map<Request, Handler> 用于存放所有的 request,handler对应关系。
+
    最后调用getHandler(requestMethod,requestPath)  就可以获取handler
    
-# v7.0 v6.0 smart-framework 初始化框架 
-第98页以下代码有句话不太明白什么意思。
+# v7.0 v6.0 smart-framework 初始化框架
+
+  第98页以下代码有句话不太明白什么意思。
 
 “实际上，当我们在第一次访问类时，就会加载其static块，这里只是为了让加载更加集中，所以才写了一个HelperLoader类。”
 
