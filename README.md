@@ -64,7 +64,7 @@ public final class HelperLoader {
 
 
 # v8.0 smart-framework 请求转发器完成 （此时mvc简单搭建完成）
-
+                    DispatcherServlet:
                                 * 1、初始化helper类
 
                                 * 2、注册 jsp,servlet 静态方法
