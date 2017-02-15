@@ -79,5 +79,20 @@ public final class HelperLoader {
 
                                 * 6、根据结果   view,data  进行处理
 
+# v11.0 smart-framework add aop
+
+Proxy  接口  ( doProxy(proxyChain) )
+
+AspectProxy   实现了proxy
+
+ProxyManager   创建所有的代理对象  (CGLibProxy实现就在此处)
+
+ProxyChain  链式代理，
+
+                   当还有时，就去取出相应的proxy代理，调用doProxy()
+
+                   否则，调用invokeSuper，执行目标对象的业务逻辑
+
+ 注意：操作对象都是对于链式代理，也就是ProxyChain
 
 
