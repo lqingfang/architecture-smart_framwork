@@ -90,7 +90,13 @@ public class DispatcherServlet extends HttpServlet{
             //获取 处理类的方法
             Method actionMethod = handler.getActionMethod();
             //处理，获得结果
-            Object result = ReflectionUtil.invokeMethod(controllerBean, actionMethod, param);
+            Object result;
+            if(param.isEmpty()) {
+                result = ReflectionUtil.invokeMethod(controllerBean, actionMethod);
+            } else {
+                result = ReflectionUtil.invokeMethod(controllerBean, actionMethod, param);
+            }
+
             if (result instanceof View) {
                 View view = (View) result;
                 String path = view.getPath();
