@@ -1,9 +1,11 @@
 package org.smart4j.framework.helper;
 
 import org.smart4j.framework.annotation.Aspect;
+import org.smart4j.framework.annotation.Service;
 import org.smart4j.framework.proxy.AspectProxy;
 import org.smart4j.framework.proxy.Proxy;
 import org.smart4j.framework.proxy.ProxyManager;
+import org.smart4j.framework.proxy.TransactionProxy;
 
 import java.lang.annotation.Annotation;
 import java.util.*;
@@ -38,6 +40,19 @@ public final class AopHelper {
      */
     private static Map<Class<?>, Set<Class<?>>> createProxyMap() throws Exception {
         Map<Class<?>, Set<Class<?>>> proxyMap = new HashMap<Class<?>, Set<Class<?>>>();
+        //添加普通切面代理
+        addAspectProxy(proxyMap);
+        //添加事务代理
+        addTransactionProxy(proxyMap);
+        return proxyMap;
+    }
+    //添加事务代理
+    private static void addTransactionProxy(Map<Class<?>, Set<Class<?>>> proxyMap) {
+        Set<Class<?>> serviceClassSet = ClassHelper.getClassSetByAnnotation(Service.class);
+        proxyMap.put(TransactionProxy.class, serviceClassSet);
+    }
+    //添加普通切面代理
+    private static void addAspectProxy(Map<Class<?>, Set<Class<?>>> proxyMap) throws Exception {
         //用来获取（Aspect）指定类的   子类/实现类
         Set<Class<?>> proxyClassSet = ClassHelper.getClassSetBySuper(AspectProxy.class);
         //遍历获取到的类
@@ -51,8 +66,8 @@ public final class AopHelper {
                 proxyMap.put(proxyClass, targetClassSet);
             }
         }
-        return proxyMap;
     }
+
     /*
     获取aspect注解的所有类
      */
