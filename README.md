@@ -95,8 +95,7 @@ ProxyChain  链式代理，
 
  注意：操作对象都是对于链式代理，也就是ProxyChain
 
-# v13.0 smart-framework
-            加载aop框架（这里理解的不是很透彻，等完了翻过来再看吧）
+# v13.0 smart-framework 加载aop框架（这里理解的不是很透彻，等完了翻过来再看吧）
 
            //获取 Map<代理类,目标类集合> 的映射关系
 
