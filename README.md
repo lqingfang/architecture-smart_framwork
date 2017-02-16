@@ -123,3 +123,45 @@ ProxyChain  链式代理，
 
                 BeanHelper.setBean(targetClass, proxy);
 
+# v15.0 事务的aop实现(此列可作为增加代理类的一个例子)：
+
+ 1、先定义一个注解类  transaction
+
+ 2、修改databaseHelper，增加开启事务，关闭事务，回滚事务的操作
+
+ 3、编写切面代理类 TransactionProxy   implements Proxy
+
+     在 doProxy 方法中完成  事务控制的逻辑
+
+      try {
+
+                //开启事务
+
+                DatabaseHelper.beginTransaction();
+
+                //执行目标方法
+
+                result = proxyChain.doProxyChain();
+
+                //提交事务
+
+                DatabaseHelper.commitTransaction();
+
+            } catch (Exception e) {
+
+                DatabaseHelper.rollbackTransaction();
+
+                throw e;
+
+            }
+
+ 4、在框架中添加事务代理机制
+
+        在createProxyMap()中添加事务代理
+
+        Map<代理类,目标类集合>
+
+        代理类是：切面代理类 TransactionProxy.class
+
+        目标类集合是：有service注解的类
+
