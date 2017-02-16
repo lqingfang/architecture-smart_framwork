@@ -95,4 +95,19 @@ ProxyChain  链式代理，
 
  注意：操作对象都是对于链式代理，也就是ProxyChain
 
+ # v13.0 smart-framework
+            加载aop框架（这里理解的不是很透彻，等完了翻过来再看吧）
+           //获取 Map<代理类,目标类集合> 的映射关系
+            Map<Class<?>, Set<Class<?>>> proxyMap = createProxyMap();
+            //获取  Map<目标类，代理类实体列表>
+            Map<Class<?>, List<Proxy>> targetMap = createTargetMap(proxyMap);
+            for (Map.Entry<Class<?>, List<Proxy>> targetEntity : targetMap.entrySet()) {
+                //获取目标类
+                Class<?> targetClass = targetEntity.getKey();
+                //获取代理类实体列表
+                List<Proxy> proxyList = targetEntity.getValue();
+                //创建代理类对象
+                Object proxy = ProxyManager.createProxy(targetClass, proxyList);
+                //将代理类对象放入Bean_Map中
+                BeanHelper.setBean(targetClass, proxy);
 
