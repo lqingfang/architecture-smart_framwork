@@ -98,11 +98,11 @@ ProxyChain  链式代理，
       
              Object methodResult;  
              
-             if (proxyIndex<proxyList.size()) {  
+             if (proxyIndex<proxyList.size()) {   
              
-                //Proxy.doProxy()中有相应的横切逻辑，doProxy是调用代理类AspectProxy里面的方法  
-                
-                methodResult = proxyList.get(proxyIndex++).doProxy(this);  
+                //Proxy.doProxy()中有相应的横切逻辑，doProxy是调用代理类AspectProxy里面的方法  
+                  
+               methodResult = proxyList.get(proxyIndex++).doProxy(this);  
                 
               } else {  
               
