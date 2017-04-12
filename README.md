@@ -85,15 +85,27 @@ public final class HelperLoader {
 
 Proxy  接口  ( doProxy(proxyChain) )
 
-AspectProxy   实现了proxy
+AspectProxy   实现了proxy ( doProxy(proxyChain) ) （环绕方法在这个里面）
 
-ProxyManager   创建所有的代理对象  (CGLibProxy实现就在此处)
+ProxyManager   创建所有的代理对象  (CGLibProxy实现就在此处，Enhancer.create(targetClass,new MethodInterceptor(方法拦截器){}))
 
 ProxyChain  链式代理，
+       当还有时，就去取出相应的proxy代理，调用doProxy()
+       
+       否则，调用invokeSuper，执行目标对象的业务逻辑
+       
+      public Object doProxyChain() throws Throwable {
+             Object methodResult;
+             if (proxyIndex<proxyList.size()) {
+                //Proxy.doProxy()中有相应的横切逻辑，doProxy是调用代理类AspectProxy里面的方法
+                methodResult = proxyList.get(proxyIndex++).doProxy(this);
+              } else {
+                 methodResult = methodProxy.invokeSuper(targetObject, methodParams);
+              }
+             return methodResult;
+          }
 
-                   当还有时，就去取出相应的proxy代理，调用doProxy()
-
-                   否则，调用invokeSuper，执行目标对象的业务逻辑
+                  
 
  注意：操作对象都是对于链式代理，也就是ProxyChain
 
