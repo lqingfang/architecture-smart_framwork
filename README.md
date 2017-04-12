@@ -99,8 +99,8 @@ ProxyChain  链式代理，
              Object methodResult;  
              
              if (proxyIndex<proxyList.size()) {   
-             
-                //Proxy.doProxy()中有相应的横切逻辑，doProxy是调用代理类AspectProxy里面的方法  
+               
+                //Proxy.doProxy()中有相应的横切逻辑，doProxy是调用代理类AspectProxy里面的方法  
                   
                methodResult = proxyList.get(proxyIndex++).doProxy(this);  
                 
@@ -119,9 +119,11 @@ ProxyChain  链式代理，
  注意：操作对象都是对于链式代理，也就是ProxyChain  
  
 
-# v13.0 smart-framework 加载aop框架（这里理解的不是很透彻，等完了翻过来再看吧）
-
-           //获取 Map<代理类,目标类集合> 的映射关系
+# v13.0 smart-framework 加载aop框架（这里理解的不是很透彻，等完了翻过来再看吧）  
+              
+            在  AopHelper中获取所有的目标类及其被拦截的切面类实例，并通过ProxyManager#createProxy方法来创建代理对象，最后将其放入BeanMap中。  
+            
+           //获取 Map<代理类,目标类集合> 的映射关系
 
             Map<Class<?>, Set<Class<?>>> proxyMap = createProxyMap();
 
