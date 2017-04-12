@@ -10,7 +10,7 @@
    
 # v4.0 smart-framework 实现依赖注入
 
-   BeanHelper 获取包下所有的类  Map<Class<?>, Object>
+   BeanHelper 获取包下所有的类  Map<Class<?>, Object>  里面存放的是类与对象的映射关系
 
    IocHelper 遍历Map<Class<?>, Object> beanMap
 
@@ -29,6 +29,8 @@
    handler 封装处理信息，类，方法
 
    ControllerHelper 中 Map<Request, Handler> 用于存放所有的 request,handler对应关系。
+   
+   （思路是从Controller类中取，Controller类的注解就有request路径的信息。）
 
    最后调用getHandler(requestMethod,requestPath)  就可以获取handler
    
