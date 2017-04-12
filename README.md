@@ -94,20 +94,30 @@ ProxyChain  链式代理，
        
        否则，调用invokeSuper，执行目标对象的业务逻辑
        
-      public Object doProxyChain() throws Throwable {
-             Object methodResult;
-             if (proxyIndex<proxyList.size()) {
-                //Proxy.doProxy()中有相应的横切逻辑，doProxy是调用代理类AspectProxy里面的方法
-                methodResult = proxyList.get(proxyIndex++).doProxy(this);
-              } else {
-                 methodResult = methodProxy.invokeSuper(targetObject, methodParams);
-              }
-             return methodResult;
+      public Object doProxyChain() throws Throwable {  
+      
+             Object methodResult;  
+             
+             if (proxyIndex<proxyList.size()) {  
+             
+                //Proxy.doProxy()中有相应的横切逻辑，doProxy是调用代理类AspectProxy里面的方法  
+                
+                methodResult = proxyList.get(proxyIndex++).doProxy(this);  
+                
+              } else {  
+              
+                 methodResult = methodProxy.invokeSuper(targetObject, methodParams);  
+                 
+              }  
+              
+             return methodResult;  
+             
           }
 
                   
 
- 注意：操作对象都是对于链式代理，也就是ProxyChain
+ 注意：操作对象都是对于链式代理，也就是ProxyChain  
+ 
 
 # v13.0 smart-framework 加载aop框架（这里理解的不是很透彻，等完了翻过来再看吧）
 
