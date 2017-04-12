@@ -67,7 +67,7 @@ public final class HelperLoader {
 
 # v8.0 smart-framework 请求转发器完成 （此时mvc简单搭建完成）
 
-                    DispatcherServlet:
+                    DispatcherServlet（extends HttpServlet,有init,service方法，就一个正常的处理类，根据请求路径找action进行处理）:
 
                                 * 1、初始化helper类
 
