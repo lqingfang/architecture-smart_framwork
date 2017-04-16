@@ -20,17 +20,15 @@
    3、定义依赖注入的注解：  
       @Target(ElementType.FIELD)  
       @Retention(RetentionPolicy.RUNTIME)    
-#  ClassHelper 获取各种想要类的类集合（封装了ClassUtil）      
-              遍历ClassUtil获取到的类集合，根据cls.isAnnotationPresent(Service.class)获取指定的类集合
+#  ClassHelper 获取各种想要类的类集合（封装了ClassUtil）   
+            遍历ClassUtil获取到的类集合，根据cls.isAnnotationPresent(Service.class)获取指定的类集合
   
 # v3.0 实现bean容器  
-   1、ReflectionUtil 封装反射   
-        
-              创建实例：newInstance(Class<?> cls) cls.newInstance();   
-              方法实例化：invokeMethod(obj,method,..) method.setAccessible(true);  method.invoke(obj, args);    
-               成员变量实例化：setField(obj,field,..) field.setAccessible(true);  field.set(obj,value);   
-                   
-   2、 BeanHelper 返回Map<Class<?>, Object>,存放了Bean类与Bean实例的映射关系     
+   1、ReflectionUtil 封装反射     
+              创建实例：newInstance(Class<?> cls) cls.newInstance();  
+              方法实例化：invokeMethod(obj,method,..) method.setAccessible(true);  method.invoke(obj, args);   
+              成员变量实例化：setField(obj,field,..) field.setAccessible(true);  field.set(obj,value);  
+   2、 BeanHelper 返回Map<Class<?>, Object>,存放了Bean类与Bean实例的映射关系    
       ClassHelper 获取所有的类集合，遍历，调用ReflectionUtil进行实例化，获取了Bean类与Bean实例的映射关系
 
 # v4.0 IocHelper实现依赖注入
@@ -79,7 +77,13 @@ public final class HelperLoader {
        3>、根据  请求路径，请求方法  从Controller中获取相应的处理类  
        4>、从request,输入流  中获取 请求参数  
        5>、ReflectionUtil  处理获取结果  
-       6>、根据结果   view,data  进行处理
+       6>、根据结果   view,data  进行处理  
+#总结：  
+            至此，一个简单的MVC框架搭建完成。  
+            定义了一系列的注解；通过一系列的Helper类来初始化MVC框架；  
+            通过DispatcherServlet来处理所有的请求；  
+            根据请求方法和请求路径来来调用具体的Action方法，判断Action方法的返回值，若为View类型，则调转到JSP页面，若为Data类型，则返回json数据。
+
 
 # v11.0 smart-framework add aop
 
