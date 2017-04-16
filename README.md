@@ -24,10 +24,12 @@
               遍历ClassUtil获取到的类集合，根据cls.isAnnotationPresent(Service.class)获取指定的类集合
   
 # v3.0 实现bean容器  
-   1、ReflectionUtil 封装反射      
-             创建实例：newInstance(Class<?> cls) cls.newInstance();   
+   1、ReflectionUtil 封装反射   
+        
+              创建实例：newInstance(Class<?> cls) cls.newInstance();   
               方法实例化：invokeMethod(obj,method,..) method.setAccessible(true);  method.invoke(obj, args);    
-               成员变量实例化：setField(obj,field,..) field.setAccessible(true);  field.set(obj,value);     
+               成员变量实例化：setField(obj,field,..) field.setAccessible(true);  field.set(obj,value);   
+                   
    2、 BeanHelper 返回Map<Class<?>, Object>,存放了Bean类与Bean实例的映射关系     
       ClassHelper 获取所有的类集合，遍历，调用ReflectionUtil进行实例化，获取了Bean类与Bean实例的映射关系
 
