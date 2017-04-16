@@ -21,18 +21,16 @@
       @Target(ElementType.FIELD)  
       @Retention(RetentionPolicy.RUNTIME)    
 #  ClassHelper 获取各种想要类的类集合（封装了ClassUtil）      
-            遍历ClassUtil获取到的类集合，根据cls.isAnnotationPresent(Service.class)获取指定的类集合
+              遍历ClassUtil获取到的类集合，根据cls.isAnnotationPresent(Service.class)获取指定的类集合
   
 # v3.0 实现bean容器  
-   1、
+   1、ReflectionUtil 封装反射  
+               创建实例：newInstance(Class<?> cls) cls.newInstance();    
+               调用方法：invokeMethod(obj,method,..) method.setAccessible(true);  method.invoke(obj, args);  
+               设置成员变量的值：setField(obj,field,..) field.setAccessible(true);  field.set(obj,value);  
+   2、 BeanHelper 返回Map<Class<?>, Object>,存放了Bean类与Bean实例的映射关系          
+      ClassHelper 获取所有的类集合，遍历，调用ReflectionUtil进行实例化，获取了Bean类与Bean实例的映射关系
 
-   ClassHelper 获取指定的类集合(getServiceClassSet,getControllerClassSet)
-
-   ReflectionUtil 封装反射，提供实例化的类
-
-   BeanHelper 返回Map<Class<?>, Object>
-
-   
 # v4.0 smart-framework 实现依赖注入
 
    BeanHelper 获取包下所有的类  Map<Class<?>, Object>  里面存放的是类与对象的映射关系
