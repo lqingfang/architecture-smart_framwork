@@ -32,20 +32,12 @@
    2、 BeanHelper 返回Map<Class<?>, Object>,存放了Bean类与Bean实例的映射关系          
       ClassHelper 获取所有的类集合，遍历，调用ReflectionUtil进行实例化，获取了Bean类与Bean实例的映射关系
 
-# v4.0 smart-framework 实现依赖注入
+# v4.0 IocHelper实现依赖注入
 
-   BeanHelper 获取包下所有的类  Map<Class<?>, Object>  里面存放的是类与对象的映射关系
-
-   IocHelper 遍历Map<Class<?>, Object> beanMap
-
-   再遍历每一个 Class<?>, Object下的成员变量
-
-   如果变量有inject修饰，则利用ReflectionUtil修改当前变量的值
-
-   注意：因为 BeanMap中的对象都是事先创建好放入 beanMap的，
-
-             所以 所有的对象都是单例的
-             
+   1、从BeanHelper中获取包下所有的类  Map<Class<?>, Object> beanMap，里面存放了Bean类与Bean实例的映射关系   
+   2、遍历bean,获取类中的成员变量  
+   3、变量成员变量，如果有@Inject注解，则去beanMap中获取所需的bean实例，通过ReflectionUtil修改当前成员变量的值  
+   
 # v5.0 smart-framework 加载 Controller
 
    request 封装请求信息，路径，方法名
