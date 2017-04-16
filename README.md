@@ -25,10 +25,10 @@
   
 # v3.0 实现bean容器  
    1、ReflectionUtil 封装反射    
-               创建实例：newInstance(Class<?> cls) cls.newInstance();   
+               创建实例：newInstance(Class<?> cls) cls.newInstance();       
                方法实例化：invokeMethod(obj,method,..) method.setAccessible(true);  method.invoke(obj, args);   
-               成员变量实例化：setField(obj,field,..) field.setAccessible(true);  field.set(obj,value);               
-   2、 BeanHelper 返回Map<Class<?>, Object>,存放了Bean类与Bean实例的映射关系          
+               成员变量实例化：setField(obj,field,..) field.setAccessible(true);  field.set(obj,value);    
+   2、 BeanHelper 返回Map<Class<?>, Object>,存放了Bean类与Bean实例的映射关系     
       ClassHelper 获取所有的类集合，遍历，调用ReflectionUtil进行实例化，获取了Bean类与Bean实例的映射关系
 
 # v4.0 IocHelper实现依赖注入
@@ -72,12 +72,12 @@ public final class HelperLoader {
    5、CodecUtil用于编码与解码  
    6、JsonUtil用于Json与POJO之间的转换  
    7、DispatcherServlet  extends HttpServlet,有init,service方法，一个正常的处理类。  
-       1、初始化helperLoader,加载所有的类  
-       2、注册 jsp,servlet 静态方法  
-       3、根据  请求路径，请求方法  从Controller中获取相应的处理类  
-       4、从request,输入流  中获取 请求参数  
-       5、ReflectionUtil  处理获取结果  
-       6、根据结果   view,data  进行处理
+       1>、初始化helperLoader,加载所有的类  
+       2>、注册 jsp,servlet 静态方法  
+       3>、根据  请求路径，请求方法  从Controller中获取相应的处理类  
+       4>、从request,输入流  中获取 请求参数  
+       5>、ReflectionUtil  处理获取结果  
+       6>、根据结果   view,data  进行处理
 
 # v11.0 smart-framework add aop
 
