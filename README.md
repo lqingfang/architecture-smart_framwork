@@ -28,30 +28,21 @@
                创建实例：newInstance(Class<?> cls) cls.newInstance();   
                方法实例化：invokeMethod(obj,method,..) method.setAccessible(true);  method.invoke(obj, args);   
                成员变量实例化：setField(obj,field,..) field.setAccessible(true);  field.set(obj,value);               
-                                 
    2、 BeanHelper 返回Map<Class<?>, Object>,存放了Bean类与Bean实例的映射关系          
       ClassHelper 获取所有的类集合，遍历，调用ReflectionUtil进行实例化，获取了Bean类与Bean实例的映射关系
 
 # v4.0 IocHelper实现依赖注入
-
-   1、从BeanHelper中获取包下所有的类  Map<Class<?>, Object> beanMap，里面存放了Bean类与Bean实例的映射关系   
+   1、从BeanHelper中获取包下所有的类  Map<Class<?>, Object> beanMap，里面存放了Bean类与Bean实例的映射关系   
    2、遍历bean,获取类中的成员变量  
    3、变量成员变量，如果有@Inject注解，则去beanMap中获取所需的bean实例，通过ReflectionUtil修改当前成员变量的值  
    
-# v5.0 smart-framework 加载 Controller
-
-   request 封装请求信息，路径，方法名
-
-   handler 封装处理信息，类，方法
-
-   ControllerHelper 中 Map<Request, Handler> 用于存放所有的 request,handler对应关系。
-   
-   （思路是从Controller类中取，Controller类的注解就有request路径的信息。）
-
-   最后调用getHandler(requestMethod,requestPath)  就可以获取handler
-   
-# v7.0 v6.0 smart-framework 初始化框架
-
+# v5.0 加载 Controller  
+   1、request 封装请求信息，路径，方法名  
+   2、handler 封装处理信息，类，方法  
+   3、ControllerHelper 中 Map<Request, Handler> 用于存放所有的 request,handler对应关系。  
+           （思路是从Controller类中取，Controller类的注解就有request路径的信息。）  
+  
+# v7.0 v6.0 初始化框架    
 public final class HelperLoader {
 
     public static void init() {
@@ -73,21 +64,20 @@ public final class HelperLoader {
 }
 
 
-# v8.0 smart-framework 请求转发器完成 （此时mvc简单搭建完成）
-
-       DispatcherServlet（extends HttpServlet,有init,service方法，就一个正常的处理类，根据请求路径找action进行处理）:
-
-        * 1、初始化helper类
-
-        * 2、注册 jsp,servlet 静态方法
-
-        * 3、根据  请求路径，请求方法  获取处理类
-
-        * 4、从request,输入流  中获取 请求参数
-
-        * 5、ReflectionUtil  处理获取结果
-
-        * 6、根据结果   view,data  进行处理
+# v8.0 请求转发器    
+   1、Param请求参数对象  
+   2、View视图对象：路径、模型数据  
+   3、Data数据对象：模型数据  
+   4、StreamUtil流操作工具类  
+   5、CodecUtil用于编码与解码  
+   6、JsonUtil用于Json与POJO之间的转换  
+   7、DispatcherServlet  extends HttpServlet,有init,service方法，一个正常的处理类。  
+       1、初始化helperLoader,加载所有的类  
+       2、注册 jsp,servlet 静态方法  
+       3、根据  请求路径，请求方法  从Controller中获取相应的处理类  
+       4、从request,输入流  中获取 请求参数  
+       5、ReflectionUtil  处理获取结果  
+       6、根据结果   view,data  进行处理
 
 # v11.0 smart-framework add aop
 
