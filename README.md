@@ -1,23 +1,25 @@
 # architecture-smart_framwork
 
-#  获取配置文件的常量
-   ConfigConstant中定义的是和配置文件相对应的常量     
-   ConfigHelper定义一些静态方法，借用ProsUtil工具类获取配置文件中定义的字符串 
+#  获取配置文件的常量  
+	ConfigConstant中定义的是和配置文件相对应的常量     
+	ConfigHelper定义一些静态方法，借用ProsUtil工具类获取配置文件中定义的字符串 
     
 #  开发一个类加载器  
-   ClassUtil    
-   1、获取类加载器：getClassLoader() ====> Thread.currentThread().getContextClassLoader();  
-   2、加载类：loadClass ====>  Class.forName(className, isInitialized, getClassLoader());    
-   3、获取指定包下的所有类：getClassSet ====> 首先将包名转化为文件路径，获取class文件或jar包，获取指定的类名去加载类    
+	ClassUtil    
+	1、获取类加载器：getClassLoader() ====> Thread.currentThread().getContextClassLoader();  
+	2、加载类：loadClass ====>  Class.forName(className, isInitialized, getClassLoader());    
+	3、获取指定包下的所有类：getClassSet ====> 首先将包名转化为文件路径，获取class文件或jar包，获取指定的类名去加载类    
    
 #  定义注解    
-   1、定义类的注解：  
-      @Target(ElementType.Type)  
-      @Retention(RetentionPolicy.RUNTIME)  
-   2、定义方法的注解：  
+   1、定义类的注解:  
+	@Target(ElementType.Type)  
+   @Retention(RetentionPolicy.RUNTIME)  
+   2、定义方法的注解：   
+   
       @Target(ElementType.METHOD)  
       @Retention(RetentionPolicy.RUNTIME)  
-   3、定义依赖注入的注解：  
+   3、定义依赖注入的注解：   
+   
       @Target(ElementType.FIELD)  
       @Retention(RetentionPolicy.RUNTIME)    
 #  ClassHelper 获取各种想要类的类集合（封装了ClassUtil）   
@@ -36,21 +38,20 @@
    
       ClassHelper 获取所有的类集合，遍历，调用ReflectionUtil进行实例化，获取了Bean类与Bean实例的映射关系
 
-# v4.0 IocHelper实现依赖注入
-   1、从BeanHelper中获取包下所有的类  Map<Class<?>, Object> beanMap，里面存放了Bean类与Bean实例的映射关系   
-   2、遍历bean,获取类中的成员变量  
-   3、变量成员变量，如果有@Inject注解，则去beanMap中获取所需的bean实例，通过ReflectionUtil修改当前成员变量的值  
+# v4.0 IocHelper实现依赖注入  
+	1、从BeanHelper中获取包下所有的类  Map<Class<?>, Object> beanMap，里面存放了Bean类与Bean实例的映射关系   
+	2、遍历bean,获取类中的成员变量  
+	3、变量成员变量，如果有@Inject注解，则去beanMap中获取所需的bean实例，通过ReflectionUtil修改当前成员变量的值  
    
-# v5.0 加载 Controller  
-   1、request 封装请求信息，路径，方法名  
-   2、handler 封装处理信息，类，方法  
-   3、ControllerHelper 中 Map<Request, Handler> 用于存放所有的 request,handler对应关系。  
+# v5.0 加载 Controller    
+	1、request 封装请求信息，路径，方法名  
+	2、handler 封装处理信息，类，方法  
+	3、ControllerHelper 中 Map<Request, Handler> 用于存放所有的 request,handler对应关系。  
            （思路是从Controller类中取，Controller类的注解就有request路径的信息。）  
   
-# v7.0 v6.0 初始化框架    
-public final class HelperLoader {
-
-    public static void init() {
+# v7.0 v6.0 初始化框架  
+	public final class HelperLoader {
+	public static void init() {
         // 定义需要加载的 Helper 类
         Class<?>[] classList = {
             DatabaseHelper.class,
@@ -66,17 +67,18 @@ public final class HelperLoader {
             ClassUtil.loadClass(cls.getName());
         }
     }
-}
+    }
 
 
 # v8.0 请求转发器    
-   1、Param请求参数对象  
-   2、View视图对象：路径、模型数据  
-   3、Data数据对象：模型数据  
-   4、StreamUtil流操作工具类  
-   5、CodecUtil用于编码与解码  
-   6、JsonUtil用于Json与POJO之间的转换  
-   7、DispatcherServlet  extends HttpServlet,有init,service方法，一个正常的处理类。  
+	1、Param请求参数对象  
+	2、View视图对象：路径、模型数据  
+	3、Data数据对象：模型数据  
+	4、StreamUtil流操作工具类  
+	5、CodecUtil用于编码与解码  
+	6、JsonUtil用于Json与POJO之间的转换  
+	7、DispatcherServlet  extends HttpServlet,有init,service方法，一个正常的处理类。  
+     
        1>、初始化helperLoader,加载所有的类  
        2>、注册 jsp,servlet 静态方法  
        3>、根据  请求路径，请求方法  从Controller中获取相应的处理类  
@@ -91,9 +93,10 @@ public final class HelperLoader {
 
 
 # v11.0 smart-framework add aop
-   1、定义切面注解Aspect  
-   2、Proxy  接口  ( doProxy(proxyChain) )  
-   3、ProxyChain实体     
+	1、定义切面注解Aspect  
+	2、Proxy  接口  ( doProxy(proxyChain) )  
+	3、ProxyChain实体       
+   
               成员变量：target(目标类)  
              targetObject(目标对象)  
              targetMethod(目标方法)  
@@ -109,7 +112,8 @@ public final class HelperLoader {
             }  
             return methodResult;  
          }  
-   4、ProxyManager  创建所有的代理对象 (cglib代理就在这里) 
+   4、ProxyManager  创建所有的代理对象 (cglib代理就在这里)   
+   
       public static <T> T createProxy(......) {  
         return (T) Enhancer.create(targetClass, new MethodInterceptor() {//创建代理对象  
            public Object intercept(.......){   
@@ -143,12 +147,13 @@ public final class HelperLoader {
       public void begin() {}
       public boolean intercept(......){return true;}  
                   注意：操作对象都是对于链式代理，也就是ProxyChain
-   6、AspectProxy中doProxy()方法，从proxyChain中获取目标类、方法、参数，通过try,catch,finally实现调用框架，从框架中抽象出一系列“钩子方法”，这些方法可在AspectProxy的子类有选择性的进行实现，如：  
-   @Aspect(Controller.class)  
-   public class ControllerAspect extends AspectProxy {  
+   6、AspectProxy中doProxy()方法，从proxyChain中获取目标类、方法、参数，通过try,catch,finally实现调用框架，从框架中抽象出一系列“钩子方法”，这些方法可在AspectProxy的子类有选择性的进行实现，如：    
+   
+	@Aspect(Controller.class)  
+	public class ControllerAspect extends AspectProxy {  
      @Override  
      public void before(...) {.....}
-   }
+	}
 
    
  
