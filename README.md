@@ -1,5 +1,28 @@
 # architecture-smart_framwork
 
+#  获取配置文件的常量
+   ConfigConstant中定义的是和配置文件相对应的常量  
+   
+   ConfigHelper定义一些静态方法，借用ProsUtil工具类获取配置文件中定义的字符串  
+   
+#  开发一个类加载器  
+   ClassUtil    
+   1、获取类加载器：getClassLoader() ====> Thread.currentThread().getContextClassLoader();  
+   2、加载类：loadClass ====>  Class.forName(className, isInitialized, getClassLoader());    
+   3、获取指定包下的所有类：getClassSet ====> 首先将包名转化为文件路径，获取class文件或jar包，获取指定的类名去加载类    
+   
+#  定义注解    
+   1、定义类的注解：  
+      @Target(ElementType.Type)  
+      @Retention(RetentionPolicy.RUNTIME)  
+   2、定义方法的注解：  
+      @Target(ElementType.METHOD)  
+      @Retention(RetentionPolicy.RUNTIME)  
+   3、定义依赖注入的注解：  
+      @Target(ElementType.FIELD)  
+      @Retention(RetentionPolicy.RUNTIME)    
+#  ClassHelper 获取各种想要类的类集合（封装了ClassUtil）
+   
 # v3.0 实现bean容器
    ClassHelper 获取指定的类集合(getServiceClassSet,getControllerClassSet)
 
