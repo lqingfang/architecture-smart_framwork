@@ -83,7 +83,7 @@ public final class HelperLoader {
        4>、从request,输入流  中获取 请求参数  
        5>、ReflectionUtil  处理获取结果  
        6>、根据结果   view,data  进行处理  
-#总结：  
+#  总结：  
             至此，一个简单的MVC框架搭建完成。  
             定义了一系列的注解；通过一系列的Helper类来初始化MVC框架；  
             通过DispatcherServlet来处理所有的请求；  
@@ -91,41 +91,66 @@ public final class HelperLoader {
 
 
 # v11.0 smart-framework add aop
-
-Proxy  接口  ( doProxy(proxyChain) )
-
-AspectProxy   实现了proxy ( doProxy(proxyChain) ) （环绕方法在这个里面）
-
-ProxyManager   创建所有的代理对象  (CGLibProxy实现就在此处，Enhancer.create(targetClass,new MethodInterceptor(方法拦截器){}))
-
-ProxyChain  链式代理，
-       当还有时，就去取出相应的proxy代理，调用doProxy()
-       
-       否则，调用invokeSuper，执行目标对象的业务逻辑
-       
-      public Object doProxyChain() throws Throwable {  
-      
-             Object methodResult;  
-             
-             if (proxyIndex<proxyList.size()) {   
-               
-                //Proxy.doProxy()中有相应的横切逻辑，doProxy是调用代理类AspectProxy里面的方法  
-                  
-               methodResult = proxyList.get(proxyIndex++).doProxy(this);  
-                
+   1、定义切面注解Aspect  
+   2、Proxy  接口  ( doProxy(proxyChain) )  
+   3、ProxyChain实体     
+              成员变量：target(目标类)  
+             targetObject(目标对象)  
+             targetMethod(目标方法)  
+             methodProxy(方法代理)  是cglib提供的一个方法代理对象，在doProxyChain中被使用
+             methodParams(方法参数)  
+             proxyList(代理列表)  
+             proxyIndex(代理索引)  代理对象的计数器  
+             方法：doProxyChain()  
+        if (proxyIndex<proxyList.size()) {   
+              methodResult = proxyList.get(proxyIndex++).doProxy(this);  
+           } else {  
+              methodResult = methodProxy.invokeSuper(targetObject, methodParams);  
+            }  
+            return methodResult;  
+         }  
+   4、ProxyManager  创建所有的代理对象 (cglib代理就在这里) 
+      public static <T> T createProxy(......) {  
+        return (T) Enhancer.create(targetClass, new MethodInterceptor() {//创建代理对象  
+           public Object intercept(.......){   
+                return new ProxyChain(......).doProxyChain();  
+           }  
+         });  
+     }  
+   5、AspectProxy  implements proxy ( doProxy(proxyChain) ) （环绕方法在这个里面）  
+   
+       doProxy(ProxyChain){   
+          try {  
+              if (intercept(......)) {   
+                  before(......);
+                  result = proxyChain.doProxyChain();
+                  after(......);
               } else {  
-              
-                 methodResult = methodProxy.invokeSuper(targetObject, methodParams);  
-                 
-              }  
-              
-             return methodResult;  
-             
+                proxyChain.doProxyChain();
+              }
+          } catch (Exception e) {
+              error(cls, method, params, e);
+              throw e;
+          } finally {
+                 end();
           }
+         return result;
+        }
+      public void end() {}
+      public void error(......) {}  
+      public void after(......) {}  
+      public void before(......) {}
+      public void begin() {}
+      public boolean intercept(......){return true;}  
+                  注意：操作对象都是对于链式代理，也就是ProxyChain
+   6、AspectProxy中doProxy()方法，从proxyChain中获取目标类、方法、参数，通过try,catch,finally实现调用框架，从框架中抽象出一系列“钩子方法”，这些方法可在AspectProxy的子类有选择性的进行实现，如：  
+   @Aspect(Controller.class)  
+   public class ControllerAspect extends AspectProxy {  
+     @Override  
+     public void before(...) {.....}
+   }
 
-                  
-
- 注意：操作对象都是对于链式代理，也就是ProxyChain  
+   
  
 
 # v13.0 smart-framework 加载aop框架
