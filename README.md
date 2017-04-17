@@ -25,7 +25,7 @@
 #  ClassHelper 获取各种想要类的类集合（封装了ClassUtil）   
             遍历ClassUtil获取到的类集合，根据cls.isAnnotationPresent(Service.class)获取指定的类集合
   
-# v3.0 实现bean容器  
+# v3.0 BeanHelper 实现bean容器  
    1、ReflectionUtil 封装反射       
    
               创建实例：newInstance(Class<?> cls) cls.newInstance();    
@@ -43,13 +43,13 @@
 	2、遍历bean,获取类中的成员变量  
 	3、变量成员变量，如果有@Inject注解，则去beanMap中获取所需的bean实例，通过ReflectionUtil修改当前成员变量的值  
    
-# v5.0 加载 Controller    
+# v5.0 ControllerHelper加载 Controller    
 	1、request 封装请求信息，路径，方法名  
 	2、handler 封装处理信息，类，方法  
 	3、ControllerHelper 中 Map<Request, Handler> 用于存放所有的 request,handler对应关系。  
            （思路是从Controller类中取，Controller类的注解就有request路径的信息。）  
   
-# v7.0 v6.0 初始化框架  
+# v7.0 v6.0 HelperLoader初始化框架  
 	public final class HelperLoader {
 	public static void init() {
         // 定义需要加载的 Helper 类
@@ -70,7 +70,7 @@
     }
 
 
-# v8.0 请求转发器    
+# v8.0 DispatcherServlet请求转发器    
 	1、Param请求参数对象  
 	2、View视图对象：路径、模型数据  
 	3、Data数据对象：模型数据  
@@ -92,8 +92,8 @@
             根据请求方法和请求路径来来调用具体的Action方法，判断Action方法的返回值，若为View类型，则调转到JSP页面，若为Data类型，则返回json数据。
 
 
-# v11.0 smart-framework add aop
-	1、定义切面注解Aspect  
+# v11.0 add aop（其实就是加了一个动态代理）
+	1、定义切面注解@Aspect  
 	2、Proxy  接口  ( doProxy(proxyChain) )  
 	3、ProxyChain实体       
    
@@ -121,7 +121,7 @@
            }  
          });  
      }  
-   5、AspectProxy  implements proxy ( doProxy(proxyChain) ) （环绕方法在这个里面）  
+   5、abstract AspectProxy implements proxy ( doProxy(proxyChain) ) （环绕方法在这个里面）  
    
        doProxy(ProxyChain){   
           try {  
@@ -154,16 +154,28 @@
      @Override  
      public void before(...) {.....}
 	}
-
-   
  
 
-# v13.0 smart-framework 加载aop框架
-              
+# v13.0 AopHelper加载aop框架
+    1、ClassHelper.getClassSetBySuper(superClass)  获取指定类的子类及实现类    
+    2、ClassHelper.getClassSetByAnnotation(annotationClass) 获取应用包下带某注解的所有类  
+    3、AopHelper.createTargetClassSet(aspect)  获取带有指定aspect注解的所有类
+    4、AopHelper.createProxyMap() 获取Map<代理类/切面类,目标类集合> 的映射关系    
+                     获取所有实现AspectProxy的所有类ClassHelper.getClassSetBySuper(AspectProxy.class)；
+       	遍历，获取所有的带有@Aspect注解的类proxyClass.isAnnotationPresent(Aspect.class)
+       	遍历，取出所代理的是哪一类，proxyClass.getAnnotation(Aspect.class)  
+                      获取带有该注解的类集合 createTargetClassSet(aspect);
+                      放入map，返回  
+    5、AopHelper.createTargetMap() 获取  Map<目标类，代理实例化集合类>   
+                     遍历  Map<代理类/切面类,目标类集合>；
+                     遍历目标类集合，实例化切面类，如果map中有目标类，之间将切面的实例化类添加到目标类对应的map中，没有创建添加即可  
+    6、AopHelper中静态块来初始化整个AOP框架    
+        createProxyMap() 获取Map<代理类/切面类,目标类集合> 的映射关系  
+        createTargetMap() 获取  Map<目标类，代理实例化集合类> 
+                       遍历   Map<目标类，代理实例化集合类> 获取代理对象ProxyManager.createProxy(目标类，代理实例化集合类)---->proxy
+        BeanHelper.setBean(targetClass, proxy)  代理类，代理对象的映射关系
     在AopHelper中获取所有的目标类及其被拦截的切面类实例，并通过ProxyManager#createProxy方法来创建代理对象，最后将其放入BeanMap中。  
             
-           
-
 # v15.0 事务的aop实现(此列可作为增加代理类的一个例子)：
 
  1、先定义一个注解类  transaction

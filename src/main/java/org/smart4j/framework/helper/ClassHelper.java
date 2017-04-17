@@ -72,7 +72,7 @@ public final class ClassHelper {
         return classSet;
     }
     /*
-    获取应用包下  带有某注解的所有类
+              获取应用包下(这里是全局类) 带有某注解的所有类
      */
     public static Set<Class<?>> getClassSetByAnnotation(Class<? extends Annotation> annotationClass) {
         Set<Class<?>> classSet = new HashSet<Class<?>>();
