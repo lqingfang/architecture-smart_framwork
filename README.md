@@ -176,14 +176,18 @@
         BeanHelper.setBean(targetClass, proxy)  代理类，代理对象的映射关系
     在AopHelper中获取所有的目标类及其被拦截的切面类实例，并通过ProxyManager#createProxy方法来创建代理对象，最后将其放入BeanMap中。  
             
-# v15.0 事务的aop实现(此列可作为增加代理类的一个例子)：
-
- 1、先定义一个注解类  transaction
-
- 2、修改databaseHelper，增加开启事务，关闭事务，回滚事务的操作
-
- 3、编写切面代理类 TransactionProxy   implements Proxy
-
- 4、在框架中添加事务代理机制
+# v15.0 事务的aop实现(此列可作为增加代理类的一个例子)：  
+	1、定义事务注解@Transaction
+		@Target(ElementType.METHOD)
+		@Retention(RetentionPolicy.RUNTIME)
+		public @interface Transaction {}
+	2、DatabaseHelper里面封装对数据库的操作
+		开启事务、提交事务、回滚事务
+		注意：开启事务时，需要将自动提交设置为false,将Connection放入本地线程变量中；
+			    事务提交或回滚后，需要移除本地线程变量中的Connection对象  
+	3、TransactionProxy implements Proxy  事务代理切面类		
+	           有一个标志，保证同一线程中事务控制相关逻辑只会执行一次。  
+	4、在AopHelper中添加事务代理，两个私有方法，一个是对普通切面的代理，一个是对事务的代理（为什么呢？）
+ 
 
        

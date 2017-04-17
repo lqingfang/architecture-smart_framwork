@@ -35,7 +35,12 @@ public final class AopHelper {
         }
     }
 
-    
+    private static Map<Class<?>, Set<Class<?>>> createProxyMap() throws Exception {
+    	Map<Class<?>, Set<Class<?>>> proxyMap = new HashMap<Class<?>, Set<Class<?>>>();
+    	addAspectProxy(proxyMap);
+    	addTransactionProxy(proxyMap);
+    	return proxyMap;
+    }
     //添加事务代理
     private static void addTransactionProxy(Map<Class<?>, Set<Class<?>>> proxyMap) {
         Set<Class<?>> serviceClassSet = ClassHelper.getClassSetByAnnotation(Service.class);
@@ -72,25 +77,27 @@ public final class AopHelper {
     
     /*
     return Map<Class<?>, Set<Class<?>>>  获取Map<代理类/切面类,目标类集合> 的映射关系
+          由前面两个代替了
    */
-	private static Map<Class<?>, Set<Class<?>>> createProxyMap() throws Exception {
-	    Map<Class<?>, Set<Class<?>>> proxyMap = new HashMap<Class<?>, Set<Class<?>>>();
-	    //获取实现，继承AspectProxy的所有子类，也就是切面类
-	    Set<Class<?>> proxyClassSet = ClassHelper.getClassSetBySuper(AspectProxy.class);
-	    //遍历切面类
-	    for (Class<?> proxyClass : proxyClassSet) {
-	    	//获取带有@Aspect注解的切面类
-	    	if (proxyClass.isAnnotationPresent(Aspect.class)) {
-	    		//获取注解类型，是Controller,Service,还是别的
-	    		Aspect aspect = proxyClass.getAnnotation(Aspect.class);
-	    		//获取带有该注解的类
-	    		Set<Class<?>> targetClassSet = createTargetClassSet(aspect);
-	    		//添加到map中，键为切面类，值为代理的类集合，比如：map（ControllerClass,ControllerSet）
-	    		proxyMap.put(proxyClass, targetClassSet);
-	    	}
-	    }
-	    return proxyMap;
-	} 
+//	private static Map<Class<?>, Set<Class<?>>> createProxyMap() throws Exception {
+//	    Map<Class<?>, Set<Class<?>>> proxyMap = new HashMap<Class<?>, Set<Class<?>>>();
+//	    //获取实现，继承AspectProxy的所有子类，也就是切面类
+//	    Set<Class<?>> proxyClassSet = ClassHelper.getClassSetBySuper(AspectProxy.class);
+//	    //遍历切面类
+//	    for (Class<?> proxyClass : proxyClassSet) {
+//	    	//获取带有@Aspect注解的切面类
+//	    	if (proxyClass.isAnnotationPresent(Aspect.class)) {
+//	    		//获取注解类型，是Controller,Service,还是别的
+//	    		Aspect aspect = proxyClass.getAnnotation(Aspect.class);
+//	    		//获取带有该注解的类
+//	    		Set<Class<?>> targetClassSet = createTargetClassSet(aspect);
+//	    		//添加到map中，键为切面类，值为代理的类集合，比如：map（ControllerClass,ControllerSet）
+//	    		proxyMap.put(proxyClass, targetClassSet);
+//	    	}
+//	    }
+//	    return proxyMap;
+//	} 
+    
     /*
           分析出 Map<代理类,目标类集合>   之间的映射关系
     return Map<目标类，代理类实体列表>  （1：n）
