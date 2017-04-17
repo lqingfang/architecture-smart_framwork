@@ -187,7 +187,11 @@
 			    事务提交或回滚后，需要移除本地线程变量中的Connection对象  
 	3、TransactionProxy implements Proxy  事务代理切面类		
 	           有一个标志，保证同一线程中事务控制相关逻辑只会执行一次。  
-	4、在AopHelper中添加事务代理，两个私有方法，一个是对普通切面的代理，一个是对事务的代理（为什么呢？）
+	4、在AopHelper中添加事务代理，两个私有方法，一个是对普通切面的代理，一个是对事务的代理（为什么呢？）  
+# 优化Action参数  
+     1、Param中增加isEmpty()方法  
+     2、DispatcherServlet中拿到参数判断下Param是否为空  
+     
  
 
        
