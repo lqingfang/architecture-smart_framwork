@@ -105,17 +105,18 @@ public final class ClassUtil {
 				String className = fileName.substring(0, fileName.lastIndexOf("."));
 				if (StringUtil.isNotEmpty(packageName)) {
 					className = packageName + "." + className;
-				} else {
-					String subPackagePath = fileName;
-					if (StringUtil.isNotEmpty(packagePath)) {
-						subPackagePath = packagePath + "/" + subPackagePath;
-					}
-					String subPackageName = fileName;
-					if (StringUtil.isNotEmpty(packageName)) {
-						subPackageName = packageName + "." +subPackageName;
-					}
-					addClass(classSet, subPackagePath, subPackageName);
+				    }
+				doAddClass(classSet, className);
+			}else {
+			      	String subPackagePath = fileName;
+				if (StringUtil.isNotEmpty(packagePath)) {
+					subPackagePath = packagePath + "/" + subPackagePath;
 				}
+				String subPackageName = fileName;
+				if (StringUtil.isNotEmpty(packageName)) {
+					subPackageName = packageName + "." +subPackageName;
+				}
+				addClass(classSet, subPackagePath, subPackageName);
 			}
 		}
 	}
